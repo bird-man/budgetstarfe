@@ -2,20 +2,18 @@
 
 /**
  * @ngdoc overview
- * @name budgetstarfeApp
+ * @name budgetstarfe
  * @description
- * # budgetstarfeApp
+ * # budgetstarfe
  *
  * Main module of the application.
  */
 angular
-  .module('budgetstarfeApp', [
-    'ngAnimate',
+  .module('budgetstarfe', [
     'ngCookies',
     'ngMessages',
     'ngResource',
-    'ngRoute',
-    'ngTouch'
+    'ngRoute'
   ])
   .config(function ($routeProvider) {
     $routeProvider
