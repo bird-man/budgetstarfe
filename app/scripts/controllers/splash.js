@@ -26,7 +26,7 @@
 
     this.logout = function() {
       this.session.loggedIn = false;
-      this.session.user = {};
+      this.session.user = null;
       $location.path('/splash');
     };
 
