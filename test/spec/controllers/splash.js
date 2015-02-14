@@ -55,7 +55,7 @@ describe('Controller: SplashController', function () {
     SplashCtrl.logout();
     expect(SplashCtrl.session.loggedIn).toBe(false);
     expect(SplashCtrl.session.user).toBeNull();
-    expect($location.path()).toEqual('/splash');
+    expect($location.path() ).toEqual('/splash');
   });
 });
 
