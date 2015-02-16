@@ -13,16 +13,16 @@
     'ui.bootstrap',
     'budgetstarfe.register']);
 
-  splashApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+  splashApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/splash', {
-      templateUrl: 'views/splash/splash.html',
+      templateUrl: 'views/splash.html',
       controller: 'SplashController'
     });
     $routeProvider.when('/login', {
-      templateUrl: 'views/splash/login.html',
+      templateUrl: 'views/login.html',
       controller: 'SplashController'
     });
 
-    $locationProvider.html5Mode(true);
   }]);
+
 })();

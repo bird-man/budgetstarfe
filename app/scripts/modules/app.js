@@ -13,11 +13,14 @@
       'ngCookies',
       'ngMessages',
       'ngResource',
-      'ngRoute'
+      'ngRoute',
+      'budgetstarfe.splash',
+      'budgetstarfe.register'
     ]);
 
-  app.config(['$routeProvider', function ($routeProvider) {
+  app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
+
     $routeProvider.otherwise({redirectTo: '/splash'});
   }]);
-
 })();

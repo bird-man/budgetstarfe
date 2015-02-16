@@ -11,4 +11,5 @@
 (function() {
   var registerApp = angular.module('budgetstarfe.register', ['ui.bootstrap']);
 
+  console.log('##### Done with modules/register.js');
 })();
