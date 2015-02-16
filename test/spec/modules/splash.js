@@ -43,10 +43,10 @@ describe('Testing budgetstarfe.splash Module', function() {
 
       inject(function($route) {
         expect($route.routes['/splash'].controller).toBe('SplashController');
-        expect($route.routes['/splash'].templateUrl).toEqual('views/splash/splash.html');
+        expect($route.routes['/splash'].templateUrl).toEqual('views/splash.html');
 
         expect($route.routes['/login'].controller).toBe('SplashController');
-        expect($route.routes['/login'].templateUrl).toEqual('views/splash/login.html');
+        expect($route.routes['/login'].templateUrl).toEqual('views/login.html');
       });
     });
   });
