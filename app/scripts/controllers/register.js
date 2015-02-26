@@ -12,6 +12,8 @@
 
   registerApp.controller('RegisterController', function($modalInstance, $scope) {
     this.newUser = {};
+    this.config = {};
+    this.config.currentYear = new Date().getFullYear();
 
     this.saveNewUser = function() {
       console.log(this.newUser.firstName);
@@ -29,5 +31,6 @@
       this.newUser = {};
       $modalInstance.dismiss('cancel');
     };
+
   })
 })();

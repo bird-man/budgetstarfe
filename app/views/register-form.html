@@ -5,7 +5,7 @@
 <div class="modal-body">
   <form name="registerForm" novalidate role="form">
     <div id="pwd-container">
-      <input type="hidden" id="currentYear" value="" />
+      <input type="hidden" id="currentYear" name="currentYear" data-ng-model="registerCtrl.config.currentYear" value="{{registerCtrl.config.currentYear}}" autofocus />
       <div class="form-group" show-errors="{showSuccess: true}">
         <div class="input-group">
           <input type="text" class="input-md form-control" name="firstName" id="firstName" data-ng-model="registerCtrl.newUser.firstName" placeholder="Enter your First Name" required data-ng-maxlength="30" />
@@ -13,43 +13,64 @@
           <span class="input-group-addon" data-ng-if="registerForm.firstName.$valid"><i class="fa fa-check"></i></span>
         </div>
         <p class="help-block" data-ng-if="registerForm.firstName.$error.required">Your First Name is Required</p>
+        <p class="help-block" data-ng-if="registerForm.firstName.$error.maxlength">Your First Name Must be 30 Characters or Less</p>
       </div>
-      <div class="form-group">
+      <div class="form-group" show-errors="{showSuccess: true}">
         <div class="input-group">
           <input type="text" class="input-md form-control" name="lastName" id="lastName" data-ng-model="registerCtrl.newUser.lastName" placeholder="Enter your Last Name" required data-ng-maxlength="30"/>
-          <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.lastName.$invalid"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.lastName.$valid"><i class="fa fa-check"></i></span>
         </div>
+        <p class="help-block" data-ng-if="registerForm.lastName.$error.required">Your Last Name is Required</p>
+        <p class="help-block" data-ng-if="registerForm.lastName.$error.maxlength">Your Last Name Must be 30 Characters or Less</p>
       </div>
-      <div class="form-group">
+      <div class="form-group" show-errors="{showSuccess: true}">
         <div class="input-group">
           <input type="email" class="input-md form-control" name="email" id="email" data-ng-model="registerCtrl.newUser.email" placeholder="Enter your Email Address" required data-ng-maxlength="254"/>
-          <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.email.$invalid"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.email.$valid"><i class="fa fa-check"></i></span>
         </div>
+        <p class="help-block" data-ng-if="registerForm.email.$error.required">Your Email Address is Required</p>
+        <p class="help-block" data-ng-if="registerForm.email.$error.maxlength">Your Email Address Must be 254 Characters or Less</p>
+        <p class="help-block" data-ng-if="registerForm.email.$error.email">Your Email Address must be a valid Email Address</p>
       </div>
-      <div class="form-group">
+      <div class="form-group" show-errors="{showSuccess: true}">
         <div class="input-group">
           <input type="text" class="input-md form-control" name="userName" id="userName" data-ng-model="registerCtrl.newUser.userName" placeholder="Enter a User Name" required data-ng-maxlength="30"/>
-          <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.userName.$invalid"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.userName.$valid"><i class="fa fa-check"></i></span>
         </div>
+        <p class="help-block" data-ng-if="registerForm.userName.$error.required">Your User Name is Required</p>
+        <p class="help-block" data-ng-if="registerForm.userName.$error.maxlength">Your User Name Must be 30 Characters or Less</p>
       </div>
-      <div class="form-group">
+      <div class="form-group" show-errors="{showSuccess: true}">
         <div class="input-group">
-          <input type="password" class="input-md form-control" name="password" id="password" data-ng-model="registerCtrl.newUser.password" placeholder="Enter a Password" required data-ng-maxlength="4095"/>
-          <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+          <input type="password" class="input-md form-control" name="password" id="password" data-ng-model="registerCtrl.newUser.password"
+                 placeholder="Enter a Password" required data-ng-minlength="8" data-ng-maxlength="4095" pw-strength="{currentYear: true, usernameField: '#userName', userInputs: ['#firstName', '#lastName', '#email']}"/>
+          <span class="input-group-addon" data-ng-if="registerForm.password.$invalid"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.password.$valid"><i class="fa fa-check"></i></span>
         </div>
+        <p class="help-block" data-ng-if="registerForm.password.$error.required">A Password is Required</p>
+        <p class="help-block" data-ng-if="registerForm.password.$error.maxlength">Your Password Must be 4095 Characters or Less</p>
+        <p class="help-block" data-ng-if="registerForm.password.$error.minlength">Your Password Must be at Least 8 Characters</p>
       </div>
       <div class="pwstrength_viewport_progress"></div>
-    </div>
-    <div class="form-group">
-      <div class="input-group">
-        <input type="password" class="input-md form-control" name="confPassword" id="confPassword" data-ng-model="registerCtrl.newUser.confPassword" placeholder="Confirm the Password" required data-ng-maxlength="4095"/>
-        <span class="input-group-addon"><i class="fa fa-asterisk"></i></span>
+      <div class="form-group" show-errors="{showSuccess: true}">
+        <div class="input-group">
+          <input type="password" class="input-md form-control" name="confPassword" id="confPassword" data-ng-model="registerCtrl.newUser.confPassword"
+                 placeholder="Confirm the Password" required data-ng-minlenght="8" data-ng-maxlength="4095" compare-to="registerCtrl.newUser.password" />
+          <span class="input-group-addon" data-ng-if="registerForm.confPassword.$invalid"><i class="fa fa-asterisk"></i></span>
+          <span class="input-group-addon" data-ng-if="registerForm.confPassword.$valid"><i class="fa fa-check"></i></span>
+        </div>
+        <p class="help-block" data-ng-if="registerForm.confPassword.$error.required">A Password Confirmation is Required</p>
+        <p class="help-block" data-ng-if="registerForm.confPassword.$error.maxlength">Your Password Confirmation Must be 4095 Characters or Less</p>
+        <p class="help-block" data-ng-if="registerForm.confPassword.$error.minlength">Your Password Confirmation Must be at Least 8 Characters</p>
+        <p class="help-block" data-ng-if="registerForm.confPassword.$error.compareTo">Your Confirmation Password Must Match Your Password</p>
       </div>
     </div>
-    <div id="messages"></div>
   </form>
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" data-ng-click="registerCtrl.cancelNewUser()">Cancel</button>
-  <button class="btn bnt-primary" data-ng-click="registerCtlr.saveNewUser()">Save</button>
+  <button class="btn btn-primary" data-ng-click="registerCtrl.saveNewUser()">Save</button>
 </div>

@@ -34,6 +34,11 @@ describe('Controller:  RegisterController', function() {
     expect(registerCtrl.newUser).toEqual({});
   });
 
+  it ('should have config.currentYear set to the current year', function() {
+    var thisYear = new Date().getFullYear();
+    expect(registerCtrl.config.currentYear).toEqual(thisYear);
+  });
+
   it('should have written the newUser to the console then clear it on save', function() {
     spyOn(console, 'log');
     registerCtrl.newUser = newUser;

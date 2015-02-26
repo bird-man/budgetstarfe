@@ -52,7 +52,7 @@
       }
 
       //only apply the has-error class after the user leaves the text box
-      inputNgEl.bind('blur', function() {
+      inputNgEl.bind('blur change', function() {
         blurred = true;
         return toggleClasses(formCtrl[inputName].$invalid);
       });

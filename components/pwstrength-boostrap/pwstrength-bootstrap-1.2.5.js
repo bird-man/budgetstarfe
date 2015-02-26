@@ -16,8 +16,8 @@ var rulesEngine = {};
 
 try {
     if (!jQuery && module && module.exports) {
-        jQuery = require("jquery");
-        var jsdom = require("jsdom").jsdom;
+        var jQuery = require("jquery"),
+            jsdom = require("jsdom").jsdom;
         jQuery = jQuery(jsdom().parentWindow);
     }
 } catch (ignore) {}
@@ -181,6 +181,9 @@ defaultOptions.common.userInputs = [
 defaultOptions.common.onLoad = undefined;
 defaultOptions.common.onKeyUp = undefined;
 defaultOptions.common.zxcvbn = false;
+defaultOptions.common.zxcvbnTerms = [
+    // List of disrecommended words
+];
 defaultOptions.common.debug = false;
 
 defaultOptions.rules = {};
@@ -343,6 +346,7 @@ var ui = {};
         var $container = ui.getContainer(options, $el);
         if (viewport) {
             $container.find(viewport).append(html);
+
         } else {
             $(html).insertAfter($el);
         }
@@ -568,10 +572,11 @@ var methods = {};
         } else {
             if (options.common.zxcvbn) {
                 userInputs = [];
-                $.each(options.common.userInputs, function (idx, selector) {
-                    userInputs.push($(selector).val());
+                $.each(options.common.userInputs.concat([options.common.usernameField]), function (idx, selector) {
+                    var value = $(selector).val();
+                    if (value) { userInputs.push(value); }
                 });
-                userInputs.push($(options.common.usernameField).val());
+                userInputs = userInputs.concat(options.common.zxcvbnTerms);
                 score = zxcvbn(word, userInputs).entropy;
             } else {
                 score = rulesEngine.executeRules(options, word);

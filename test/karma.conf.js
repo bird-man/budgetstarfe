@@ -33,6 +33,7 @@ module.exports = function(config) {
       // endbower
       'app/scripts/modules/*.js',
       'components/version/*.js',
+      'components/pwstrength-boostrap/pwstrength-bootstrap-1.2.5.js',
       'app/scripts/controllers/*.js',
       'app/scripts/services/*.js',
       'app/scripts/directives/*.js',
@@ -59,6 +60,8 @@ module.exports = function(config) {
       'Chrome'
     ],
 
+    browserNoActivityTimeout: 10000,
+
     // Which plugins to enable
     plugins: [
       'karma-chrome-launcher',
@@ -67,7 +70,7 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false,
+    singleRun: true,
 
     colors: true,
 
