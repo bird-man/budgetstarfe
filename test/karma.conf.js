@@ -29,13 +29,15 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/ngstorage/ngStorage.js',
+      'bower_components/oauth-ng/dist/oauth-ng.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/modules/*.js',
       'components/version/*.js',
       'components/pwstrength-boostrap/pwstrength-bootstrap-1.2.5.js',
-      'app/scripts/controllers/*.js',
       'app/scripts/services/*.js',
+      'app/scripts/controllers/*.js',
       'app/scripts/directives/*.js',
       //'test/mock/**/*.js',
       'test/spec/**/*.js'

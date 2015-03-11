@@ -12,7 +12,7 @@
   var registerApp = angular.module('budgetstarfe.register');
 
   registerApp.service('registerModalService', ['$modal',
-    function($modal) {
+    function ($modal) {
       this.show = function() {
         var modalOptions = {
           backdrop: 'static',
@@ -23,8 +23,9 @@
           controllerAs: 'registerCtrl'
         };
 
-        var registerModal = $modal.open(modalOptions);
+        $modal.open(modalOptions);
       };
     }
   ]);
+
 })();

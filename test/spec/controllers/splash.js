@@ -1,61 +1,106 @@
 'use strict';
 
 describe('Controller: SplashController', function () {
-  var registerModalService;
-  var $location;
+  var registerModalServiceMock;
+  var CredentialMock;
+  var scope;
+  var SplashCtrl;
+  var location;
+  var injector;
+
+  var pretendingError = false;
+
+  //load the controller's module
+  beforeEach(module('budgetstarfe.splash'));
 
   // load the controller's module and setup the mock service
-  beforeEach(function() {
-    var mockRegisterModalService = {};
-    module('budgetstarfe.splash', function($provide){
-      $provide.value('registerModalService', mockRegisterModalService);
-    });
+  beforeEach(inject(function($controller, $rootScope, $location, currentUser, $injector) {
+    scope = $rootScope.$new();
+    location = $location;
 
-    inject(function() {
-      mockRegisterModalService.show = function() {
+    injector = $injector;
+
+    registerModalServiceMock = {
+      show: function() {
         console.log('Called registerModalService.show');
-      };
-    });
+      }
+    };
+
+    CredentialMock = {
+      $authenticate:  function(parms, callback, errorCallback) {
+        var response = {
+          refresh_token: 'A refresh token',
+          scope: 'write groups read',
+          expires_in: 36000,
+          token_type: 'Bearer',
+          access_token: 'An access token'
+        };
+
+        var responseHeaders = {};
+        var httpResponse = {};
+
+        if (pretendingError) {
+          errorCallback(httpResponse);
+        }
+        else {
+          callback(response, responseHeaders);
+        }
+      }
+    };
 
     spyOn(console, 'log');
 
-  });
-
-  var SplashCtrl;
-  var scope;
-
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _$location_, _registerModalService_) {
-    scope = $rootScope.$new();
-    $location = _$location_;
-    registerModalService = _registerModalService_;
-
-    SplashCtrl = $controller('SplashController', {$location: $location, registerModalService: registerModalService});
+    SplashCtrl = $controller('SplashController', {$location: $location, registerModalService: registerModalServiceMock, Credential: CredentialMock, currentUser: currentUser});
   }));
 
-  it('should not have a logged in session', function () {
-    expect(SplashCtrl.session.loggedIn).toBe(false);
-  });
+  it('should not have a logged in session', inject(function(currentUser) {
+    expect(currentUser.loggedIn).toBe(false);
+  }));
 
   it('should call registerModalService.show() when registering', function() {
+    spyOn(registerModalServiceMock, 'show').and.callThrough();
     SplashCtrl.register();
     expect(console.log).toHaveBeenCalledWith('Called registerModalService.show');
   });
 
-  it('should add the user to session when logging in', function() {
-    var user = {lastName: 'Flintstone', firstName: 'Fred'};
-    SplashCtrl.login(user);
-    expect(SplashCtrl.session.loggedIn).toBe(true);
-    expect(SplashCtrl.session.user.lastName).toEqual('Flintstone');
-    expect(SplashCtrl.session.user.firstName).toEqual('Fred');
-    expect($location.path()).toEqual('/splash');
-  });
+  it('should add the currentUser to session when logging in', inject(function(currentUser) {
+    spyOn(CredentialMock, '$authenticate').and.callThrough();
+    SplashCtrl.login('robin.mccurdy', '$Robin2014');
+    expect(currentUser.loggedIn).toBe(true);
+    expect(currentUser.username).toEqual('robin.mccurdy');
+    expect(currentUser.refresh_token).toEqual('A refresh token');
+    expect(currentUser.scope).toEqual('write groups read');
+    expect(currentUser.expires_in).toEqual(36000);
+    expect(currentUser.token_type).toEqual('Bearer');
+    expect(currentUser.access_token).toEqual('An access token');
+    expect(location.path()).toEqual('/splash/');
+  }));
 
-  it('should remove the user from session when logging out', function() {
+  it('should write a message to the log when login fails', inject(function(currentUser) {
+    pretendingError = true;
+    spyOn(CredentialMock, '$authenticate').and.callThrough();
+    SplashCtrl.login('robin.mccurdy', '$Robin2014');
+    expect(console.log).toHaveBeenCalledWith('Error logging in');
+    expect(currentUser.loggedIn).toBe(false);
+    expect(currentUser.username).toEqual('');
+    expect(currentUser.refresh_token).toEqual('');
+    expect(currentUser.scope).toEqual('');
+    expect(currentUser.expires_in).toEqual(0);
+    expect(currentUser.token_type).toEqual('');
+    expect(currentUser.access_token).toEqual('');
+    expect(location.path()).toEqual('/splash/');
+  }));
+
+  it('should remove the user from session when logging out', inject(function(currentUser) {
     SplashCtrl.logout();
-    expect(SplashCtrl.session.loggedIn).toBe(false);
-    expect(SplashCtrl.session.user).toBeNull();
-    expect($location.path() ).toEqual('/splash');
-  });
+    expect(currentUser.loggedIn).toBe(false);
+    expect(currentUser.username).toEqual('');
+    expect(currentUser.refresh_token).toEqual('');
+    expect(currentUser.scope).toEqual('');
+    expect(currentUser.expires_in).toEqual(0);
+    expect(currentUser.token_type).toEqual('');
+    expect(currentUser.access_token).toEqual('');
+    expect(location.path()).toEqual('/splash/');
+  }));
 });
 

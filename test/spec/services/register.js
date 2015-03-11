@@ -2,27 +2,28 @@
 /**
  * Created by chrissparrow on 2/16/15.
  */
-describe('registerModalService', function() {
+describe('Service: registerModalService', function() {
   var mockModal;
   var scope;
   var regModalService;
+  var $provide;
 
-  beforeEach(function() {
-    mockModal = {};
-    module('budgetstarfe.register', function($provide) {
-      $provide.value('$modal', mockModal);
+  beforeEach(module('budgetstarfe.register'));
+
+  beforeEach(inject(function(registerModalService, $rootScope, $modal) {
+    regModalService = registerModalService;
+
+    spyOn($modal, 'open').and.callFake(function() {
+      console.log('$modal.open has been called');
     });
 
-    mockModal.open = jasmine.createSpy();
-  });
-
-  beforeEach(inject(['registerModalService', '$rootScope', function(registerModalService, $rootScope) {
     scope = $rootScope.$new();
-    regModalService = registerModalService;
-  }]));
+
+    spyOn(console, 'log');
+  }));
 
   it('should call $modal.open when show is called', function() {
     regModalService.show();
-    expect(mockModal.open).toHaveBeenCalled();
+    expect(console.log).toHaveBeenCalledWith('$modal.open has been called');
   });
 });

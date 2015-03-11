@@ -10,7 +10,7 @@
 (function() {
   var registerApp = angular.module('budgetstarfe.register');
 
-  registerApp.controller('RegisterController', function($modalInstance, $scope) {
+  registerApp.controller('RegisterController', ['$modalInstance', '$scope', function($modalInstance, $scope, $resource) {
     this.newUser = {};
     this.config = {};
     this.config.currentYear = new Date().getFullYear();
@@ -32,5 +32,5 @@
       $modalInstance.dismiss('cancel');
     };
 
-  })
+  }])
 })();
