@@ -8,7 +8,8 @@
       <input type="hidden" id="currentYear" name="currentYear" data-ng-model="registerCtrl.config.currentYear" value="{{registerCtrl.config.currentYear}}" autofocus />
       <div class="form-group" show-errors="{showSuccess: true}">
         <div class="input-group">
-          <input type="text" class="input-md form-control" name="firstName" id="firstName" data-ng-model="registerCtrl.newUser.firstName" placeholder="Enter your First Name" required data-ng-maxlength="30" />
+          <input type="text" class="input-md form-control" name="firstName" id="firstName" data-ng-model="registerCtrl.newUser.firstName"
+                 placeholder="Enter your First Name" required data-ng-maxlength="30" autofocus="autofocus" />
           <span class="input-group-addon" data-ng-if="registerForm.firstName.$invalid"><i class="fa fa-asterisk"></i></span>
           <span class="input-group-addon" data-ng-if="registerForm.firstName.$valid"><i class="fa fa-check"></i></span>
         </div>
